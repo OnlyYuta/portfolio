@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Портфолио Никиты Коровина</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Бизнес-аналитик: два продукта, разобранные от проблемы пользователя до требований, BPMN, UML и плана запуска.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Unbounded:wght@500;700&display=swap">
+<style>
+/* Layout: a single reading column like a spec document; diagrams sit on white "sheets", IDs and notation in mono, BPMN shapes as the only ornament. */
+:root {
+  --paper: #f5f7fa;
+  --surface: #ffffff;
+  --ink: #131a26;
+  --muted: #586274;
+  --line: #d8dee8;
+  --accent: #0b6b78;
+  --accent-ink: #ffffff;
+  --mark: #ffe066;
+  --mark-ink: #131a26;
+  --ok: #1f7a4d;
+  --new: #9a5b00;
+  --sheet: #ffffff;
+  --sheet-line: #c9d1dd;
+  --f-display: "Unbounded", "Golos Text", system-ui, sans-serif;
+  --f-body: "Golos Text", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --s-1: 0.8125rem; --s0: 1rem; --s1: 1.1875rem; --s2: 1.5rem; --s3: 2rem; --s4: clamp(2.2rem, 6vw, 3.6rem);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0d1118; --surface: #151b25; --ink: #e7ebf2; --muted: #9aa5b8; --line: #283142;
+    --accent: #5cc6d3; --accent-ink: #0d1118; --mark: #e8c93a; --mark-ink: #131a26; --ok: #63c08f; --new: #e0a64a;
+    --sheet: #ffffff; --sheet-line: #3a4559; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0d1118; --surface: #151b25; --ink: #e7ebf2; --muted: #9aa5b8; --line: #283142;
+  --accent: #5cc6d3; --accent-ink: #0d1118; --mark: #e8c93a; --mark-ink: #131a26; --ok: #63c08f; --new: #e0a64a;
+  --sheet: #ffffff; --sheet-line: #3a4559; color-scheme: dark;
+}
+body { background: var(--paper); color: var(--ink); font: 400 var(--s0)/1.6 var(--f-body); }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.mono { font-family: var(--f-mono); }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+h2 { font: 700 var(--s3)/1.15 var(--f-display); letter-spacing: -0.01em; }
+h3 { font: 600 var(--s1)/1.3 var(--f-body); }
+p { margin: 0; }
+.eyebrow { font: 600 var(--s-1)/1.2 var(--f-mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+mark { background: var(--mark); color: var(--mark-ink); padding: 0 0.2em; border-radius: 2px; }
+
+/* top bar */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper); }
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; gap: 20px; align-items: center; justify-content: space-between; padding-block: 10px; }
+.brand { font: 600 var(--s-1)/1 var(--f-mono); letter-spacing: 0.04em; color: var(--ink); text-decoration: none; white-space: nowrap; }
+.nav { display: flex; gap: 6px 18px; flex-wrap: wrap; justify-content: flex-end; }
+.nav a { color: var(--muted); text-decoration: none; font-size: var(--s-1); }
+.nav a:hover { color: var(--ink); }
+
+/* hero */
+.hero { padding-block: 56px 40px; display: grid; gap: 22px; }
+.hero h1 { font: 700 var(--s4)/1.02 var(--f-display); letter-spacing: -0.02em; }
+.lead { font-size: var(--s1); max-width: 62ch; color: var(--ink); }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0; list-style: none; }
+.chip { font: 500 var(--s-1)/1 var(--f-body); border: 1px solid var(--line); border-radius: 999px; padding: 6px 11px; color: var(--muted); background: var(--surface); }
+.teasers { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 10px; }
+.teaser { display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: center; padding: 18px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--ink); text-decoration: none; }
+.teaser:hover { border-color: var(--accent); }
+.teaser strong { display: block; font: 700 var(--s2)/1.1 var(--f-display); margin-bottom: 6px; }
+.teaser span { color: var(--muted); font-size: var(--s-1); }
+.teaser .go { font: 600 var(--s-1)/1 var(--f-mono); color: var(--accent); white-space: nowrap; }
+
+/* sections */
+section { padding-block: 48px; border-top: 1px solid var(--line); }
+.sec-head { display: grid; gap: 10px; margin-bottom: 28px; }
+.sec-head p { color: var(--muted); max-width: 66ch; }
+.block { display: grid; gap: 16px; margin-top: 40px; }
+.block > p, .prose { max-width: 68ch; }
+.two { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 32px; align-items: start; }
+@media (max-width: 860px) { .two { grid-template-columns: 1fr; } }
+.facts { display: grid; gap: 14px; }
+.fact { display: grid; grid-template-columns: 9.5rem 1fr; gap: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+.fact b { font: 600 var(--s-1)/1.5 var(--f-mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+@media (max-width: 520px) { .fact { grid-template-columns: 1fr; gap: 4px; } }
+.results { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.results li { display: grid; grid-template-columns: 14px 1fr; gap: 10px; }
+.results li::before { content: ""; width: 10px; height: 10px; margin-top: 7px; border: 2px solid var(--accent); transform: rotate(45deg); }
+.case-head { display: grid; gap: 12px; margin-bottom: 30px; }
+.case-head h2 { font-size: clamp(2rem, 5vw, 3rem); }
+.case-head .tagline { font-size: var(--s1); color: var(--muted); max-width: 60ch; }
+
+/* tables */
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 0.9375rem; }
+th, td { text-align: left; vertical-align: top; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+th { font: 600 var(--s-1)/1.3 var(--f-mono); text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); background: color-mix(in srgb, var(--surface) 60%, var(--paper)); }
+td .id { font: 600 0.8125rem/1.4 var(--f-mono); white-space: nowrap; }
+.st { font: 600 0.75rem/1 var(--f-mono); padding: 4px 7px; border-radius: 4px; white-space: nowrap; display: inline-block; }
+.st.ok { color: var(--ok); border: 1px solid currentColor; }
+.st.new { color: var(--new); border: 1px solid currentColor; }
+
+/* diagrams */
+.dia { margin: 0; display: grid; gap: 10px; }
+.dia-open { display: block; width: 100%; padding: 14px; border: 1px solid var(--sheet-line); border-radius: 8px; background: var(--sheet); cursor: zoom-in; position: relative; }
+.dia-open img { display: block; width: 100%; height: auto; max-height: 560px; object-fit: contain; }
+.dia-open::after { content: "Открыть крупно"; position: absolute; right: 10px; bottom: 10px; font: 600 0.75rem/1 var(--f-mono); color: #131a26; background: #ffffffe6; border: 1px solid #c9d1dd; border-radius: 4px; padding: 6px 8px; }
+.dia figcaption { color: var(--muted); font-size: 0.9375rem; max-width: 72ch; }
+.tag { font: 600 0.75rem/1 var(--f-mono); color: var(--accent); border: 1px solid currentColor; border-radius: 4px; padding: 3px 6px; margin-right: 8px; white-space: nowrap; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 24px; align-items: start; }
+
+/* code-like spec blocks */
+.spec { margin: 0; font: 400 0.875rem/1.65 var(--f-mono); background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 6px; padding: 14px 16px; overflow-x: auto; white-space: pre; color: var(--ink); }
+.spec .k { color: var(--accent); font-weight: 600; }
+
+/* personas */
+.personas { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 16px; }
+.persona { padding: 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); display: grid; gap: 6px; align-content: start; }
+.persona b { font-weight: 600; }
+.persona p { color: var(--muted); font-size: 0.9375rem; }
+
+/* screenshots */
+.shots { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 8px; scroll-snap-type: x mandatory; }
+.shots figure { margin: 0; flex: 0 0 auto; width: min(46vw, 200px); scroll-snap-align: start; display: grid; gap: 6px; }
+.shots img { width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line); display: block; }
+.shots figcaption { font-size: var(--s-1); color: var(--muted); }
+.shot { margin: 0; display: grid; gap: 8px; }
+.shot img { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 10px; display: block; }
+.shot figcaption { font-size: var(--s-1); color: var(--muted); }
+.shot.tall img { height: 640px; max-height: 70vh; object-fit: cover; object-position: top; }
+
+/* process: drawn in BPMN notation */
+.flow { display: flex; align-items: center; gap: 0; overflow-x: auto; padding: 22px 6px; }
+.flow .ev { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--ink); flex: 0 0 auto; }
+.flow .ev.end { border-width: 5px; }
+.flow .arr { flex: 0 0 26px; height: 2px; background: var(--ink); position: relative; }
+.flow .arr::after { content: ""; position: absolute; right: -1px; top: -4px; border: 5px solid transparent; border-left: 7px solid var(--ink); border-right: 0; }
+.flow .task { flex: 0 0 auto; width: 132px; min-height: 70px; border: 2px solid var(--ink); border-radius: 10px; padding: 8px 10px; display: grid; gap: 2px; align-content: center; background: var(--surface); }
+.flow .task b { font: 600 0.75rem/1.2 var(--f-mono); color: var(--accent); }
+.flow .task span { font-size: 0.875rem; line-height: 1.3; }
+@media (max-width: 640px) {
+  .flow { flex-direction: column; align-items: stretch; overflow: visible; padding: 10px 0; }
+  .flow .ev { align-self: center; }
+  .flow .arr { flex: 0 0 22px; width: 2px; height: 22px; align-self: center; }
+  .flow .arr::after { right: -4px; top: auto; bottom: -1px; border: 5px solid transparent; border-top: 7px solid var(--ink); border-bottom: 0; }
+  .flow .task { width: auto; }
+}
+
+/* other */
+.other { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; align-items: center; }
+@media (max-width: 760px) { .other { grid-template-columns: 1fr; } }
+.note { padding: 16px 18px; border: 1px dashed var(--line); border-radius: 10px; color: var(--muted); font-size: 0.9375rem; }
+footer { border-top: 1px solid var(--line); padding-block: 36px 56px; color: var(--muted); font-size: 0.9375rem; display: grid; gap: 10px; }
+
+/* zoom dialog */
+dialog { width: min(96vw, 1600px); height: min(92vh, 1000px); max-width: none; max-height: none; padding: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); }
+dialog::backdrop { background: rgba(10, 14, 22, 0.72); }
+.zbar { display: flex; gap: 8px; align-items: center; padding: 10px 12px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.zbar span { flex: 1 1 200px; font-weight: 600; min-width: 0; }
+.zbar button { font: 600 0.8125rem/1 var(--f-mono); padding: 8px 11px; border-radius: 6px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); cursor: pointer; }
+.zview { overflow: auto; height: calc(100% - 58px); background: #ffffff; }
+.zview img { display: block; max-width: none; }
+@media (prefers-reduced-motion: no-preference) { .teaser, .dia-open { transition: border-color .15s ease; } }
+@media print {
+  :root { --paper: #ffffff; --surface: #ffffff; --ink: #131a26; --muted: #4a5466; --line: #d8dee8; --accent: #0b6b78; }
+  .top, dialog, body::before { display: none !important; }
+  .dia-open::after { display: none; }
+  .dia-open img { max-height: none; }
+  section { break-before: auto; padding-block: 24px; }
+  #threata, #kaivo { break-before: page; }
+  figure, .persona, .fact, pre, tr { break-inside: avoid; }
+  h2, h3, .eyebrow { break-after: avoid; }
+  .pb { break-before: page; margin-top: 0; }
+  .block { break-inside: auto; }
+  .shots { flex-wrap: nowrap; overflow: visible; gap: 10px; }
+  .shots figure { width: 18%; flex: 1 1 0; }
+  .tbl { overflow: visible; }
+  table { min-width: 0; }
+  a { color: inherit; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top">Н. Коровин · BA</a>
+    <nav class="nav" aria-label="Разделы">
+      <a href="#skills">Навыки</a>
+      <a href="#threata">Threata</a>
+      <a href="#kaivo">KAIVO</a>
+      <a href="#method">Как я работаю</a>
+      <a href="#other">Ещё</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap">
+    <div class="hero">
+      <p class="eyebrow">Портфолио · бизнес-аналитик</p>
+      <h1>Никита Коровин</h1>
+      <p class="lead">Разбираю продукт от проблемы пользователя до требований, которые можно отдать в разработку. Здесь два моих проекта, описанные как настоящие продукты: процессы в BPMN 2.0, требования и UML, разбор причин сбоев и план запуска.</p>
+      <ul class="meta">
+        <li class="chip">Финансовый университет, профиль «Информационная безопасность»</li>
+        <li class="chip">School 21, кибербезопасность</li>
+        <li class="chip">BPMN · UML · Use Cases · User Stories · SQL · REST API</li>
+        <li><a class="chip" href="Korovin-portfolio.pdf" style="display:inline-block;color:var(--accent);text-decoration:none">Скачать PDF</a></li>
+      </ul>
+      <div class="teasers">
+        <a class="teaser" href="#threata"><div><strong>Threata</strong><span>ИИ-дайджест новостей кибербезопасности. Модель: реклама</span></div><span class="go">кейс →</span></a>
+        <a class="teaser" href="#kaivo"><div><strong>KAIVO</strong><span>Hi-Res плеер для macOS, iOS и Android. Модель: подписка</span></div><span class="go">кейс →</span></a>
+      </div>
+    </div>
+  </div>
+
+  <section id="skills">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Навыки из резюме</p>
+        <h2>Где посмотреть каждый навык</h2>
+        <p>Строки взяты из раздела «Ключевые навыки» резюме. В ячейках ссылки на конкретные артефакты ниже.</p>
+      </div>
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Навык</th><th>Threata</th><th>KAIVO</th></tr></thead>
+          <tbody>
+            <tr><td>Моделирование процессов, BPMN, As-Is / To-Be</td><td><a href="#t-asis">As-Is мониторинга</a>, <a href="#t-daily">To-Be выпуска</a>, <a href="#t-ads">размещение рекламы</a></td><td><a href="#k-asis">As-Is прослушивания</a>, <a href="#k-sub">подписка</a>, <a href="#k-mood">подборка дня</a></td></tr>
+            <tr><td>UML</td><td><a href="#t-uc">Use Case</a>, <a href="#t-state">состояния</a>, <a href="#t-seq">последовательность</a>, ER-модель</td><td><a href="#k-uc">Use Case</a>, <a href="#k-state">состояния подписки</a>, <a href="#k-class">классы</a></td></tr>
+            <tr><td>Требования, Use Cases, User Stories</td><td><a href="#t-req">UC-05, US-05, FR и NFR</a> с приоритетами MoSCoW</td><td><a href="#k-req">UC-09, US-06, FR и NFR</a>, правила App Store</td></tr>
+            <tr><td>Узкие места и корневые причины: Исикава, «5 почему»</td><td><a href="#t-why">Исикава и два реальных инцидента</a></td><td><a href="#k-why">Исикава и дефект синхронизации</a></td></tr>
+            <tr><td>Подготовка ТЗ и артефактов для разработки</td><td><a href="#t-gap">gap-анализ и этапы запуска</a></td><td><a href="#k-gap">gap-анализ и сверка с кодом</a></td></tr>
+            <tr><td>SQL, Python, REST API</td><td>ER-модель SQLite, API ядра, интеграции по HTTPS</td><td>C API звукового ядра; требования к интеграции StoreKit 2</td></tr>
+            <tr><td>LLM-агенты</td><td>Конвейер на LLM с проверкой фактов кодом и защитой от prompt injection</td><td>Разработка с LLM-агентами по моим постановкам задач</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THREATA ============ -->
+  <section id="threata">
+    <div class="wrap">
+      <div class="case-head">
+        <p class="eyebrow">Кейс 1 · хакатон IT-Fest 2026</p>
+        <h2>Threata</h2>
+        <p class="tagline">Каждое утро присылает пять главных событий кибербезопасности за сутки: с источниками, проверенными числами и датами. В анализе продукт готовится к публичному запуску и зарабатывает на рекламе.</p>
+        <ul class="meta"><li class="chip">Python, Docker Compose</li><li class="chip">LLM: DeepSeek, Gemini</li><li class="chip">Почта и Telegram</li><li class="chip">B2B-медиа</li></ul>
+      </div>
+
+      <div class="two">
+        <div class="facts">
+          <div class="fact"><b>Проблема</b><p>Специалист по ИБ каждое утро вручную обходит 10-20 источников, тонет в дублях и рекламе и всё равно пропускает важное.</p></div>
+          <div class="fact"><b>Решение</b><p>Код собирает RSS, отсекает всё старше суток и считает баллы. Модель отбирает, склеивает и пересказывает события. Числа и даты пересказа код сверяет с источником.</p></div>
+          <div class="fact"><b>Моя роль</b><p>Разбор кейса и требования, критерии отбора источников, сценарии сбоев, приёмка и проверка качества. Аналитика продукта на этой странице.</p></div>
+          <div class="fact"><b>Результат</b>
+            <ul class="results">
+              <li><span>28 источников проверены по критериям, в работе 5 лучших</span></li>
+              <li><span>Реальный выпуск 09.11.2026: из 230 материалов отобрано 5 событий</span></li>
+              <li><span>Учебный набор организаторов: 0 нарушений, 12 из 12 исключений верны</span></li>
+              <li><span>Сбой модели больше не выдаётся за «новостей нет»</span></li>
+            </ul>
+          </div>
+        </div>
+        <figure class="shot tall"><img src="img/threata-email.jpg" alt="Письмо с дайджестом: пять событий с источниками и обоснованием" width="1440" height="3000"><figcaption>Письмо из реального выпуска. Картинки новостей скрыты: это фото издателей.</figcaption></figure>
+      </div>
+
+      <div class="block">
+        <h3>Аудитория и деньги</h3>
+        <div class="personas">
+          <div class="persona"><b>Аналитик SOC, 27 лет</b><p>Читает новости с телефона по дороге на смену. Важно понять, касается ли это его стека. Ценит ссылку на первоисточник.</p></div>
+          <div class="persona"><b>ИТ-директор, компания на 150 человек</b><p>Отдельного ИБ-отдела нет. Нужна выжимка «что важно для бизнеса» в почте. Интересен вендорам средств защиты.</p></div>
+          <div class="persona"><b>Студент направления ИБ</b><p>Следит за отраслью, готовится к собеседованиям. Откликается на рекламу курсов, конференций и вакансий.</p></div>
+        </div>
+        <p class="prose">Продукт бесплатный для читателя. Деньги приносят спонсор выпуска, нативный блок, баннер на сайте и рубрика вакансий. Реклама только прямая, без рекламных сетей и чужих скриптов: ИБ-аудитория не простит вредоносную ссылку.</p>
+        <pre class="spec"><span class="k">Выручка в месяц</span> = выпуски × проданные слоты × цена слота
+<span class="k">Цена слота</span>      = охват выпуска / 1000 × CPM для ИБ-аудитории
+<span class="k">Себестоимость</span>   = токены модели × тариф + сервер + рассылка
+<span class="k">Замер 09.11</span>     = 162 вызова модели, ~290 тыс. токенов, 13 минут</pre>
+      </div>
+
+      <div class="block pb">
+        <h3>Процессы: как было и как будет</h3>
+        <figure class="dia" id="t-asis">
+          <button class="dia-open" data-title="As-Is: ручной мониторинг новостей ИБ"><img src="d/threata/01-as-is-monitoring.svg" alt="BPMN As-Is: ручной мониторинг новостей" loading="lazy"></button>
+          <figcaption><span class="tag">BPMN As-Is</span>Сейчас: человек сам обходит сайты, отсеивает дубли и пересказывает в чат. Шесть узких мест разобраны в анализе.</figcaption>
+        </figure>
+        <figure class="dia" id="t-why">
+          <button class="dia-open" data-title="Диаграмма Исикавы: почему ручной мониторинг не работает"><img src="d/threata/ishikawa-monitoring.svg" alt="Диаграмма Исикавы" loading="lazy"></button>
+          <figcaption><span class="tag">Исикава</span>Причины по шести группам сводятся к одной: нет процесса с критериями отбора, проверкой фактов и регулярной доставкой.</figcaption>
+        </figure>
+        <figure class="dia" id="t-daily">
+          <button class="dia-open" data-title="To-Be: ежедневный выпуск Threata"><img src="d/threata/02-to-be-daily-issue.svg" alt="BPMN To-Be: ежедневный выпуск" loading="lazy"></button>
+          <figcaption><span class="tag">BPMN To-Be</span>Все обращения к модели собраны в подпроцесс с граничным событием «Сбой модели». LLM-сервис и читатели вынесены в отдельные пулы, обмен с ними идёт сообщениями. Выпуск с замечаниями ИИ-критика уходит на утверждение редактору.</figcaption>
+        </figure>
+        <figure class="dia" id="t-ads">
+          <button class="dia-open" data-title="To-Be: размещение рекламы"><img src="d/threata/03-to-be-ad-placement.svg" alt="BPMN To-Be: размещение рекламы" loading="lazy"></button>
+          <figcaption><span class="tag">BPMN To-Be</span>Размещение по закону о рекламе: модерация ссылок, оплата, токен erid от оператора рекламных данных, отчётность в ЕРИР в конце месяца.</figcaption>
+        </figure>
+      </div>
+
+      <div class="block">
+        <h3>«5 почему»: дайджест сказал «событий нет», хотя новости были</h3>
+        <p>Нашёлся на аудите перед защитой: у модели кончился лимит запросов, а выпуск вышел с кодом 0 и текстом «подходящих событий нет». Скрипт организаторов ошибку не увидел.</p>
+        <div class="tbl"><table>
+          <thead><tr><th>Почему</th><th>Ответ</th></tr></thead>
+          <tbody>
+            <tr><td>Почему событий нет?</td><td>Все публикации выпали из отбора</td></tr>
+            <tr><td>Почему выпали?</td><td>Модель не ответила (HTTP 429), а публикация без ответа считалась не прошедшей отбор</td></tr>
+            <tr><td>Почему это не различалось?</td><td>У запуска не было состояния «сбой»: только «есть события» или «нет», код 0 в обоих случаях</td></tr>
+            <tr><td>Почему не было состояния?</td><td>Требования описывали только успешный сценарий</td></tr>
+            <tr><td>Почему только успешный?</td><td>Исключительные потоки (модель недоступна, ответ пустой или не JSON) не разбирались при постановке</td></tr>
+          </tbody>
+        </table></div>
+        <p class="prose"><b>Решение:</b> четыре статуса запуска (<span class="mono">ok</span>, <span class="mono">warn</span>, <span class="mono">empty</span>, <span class="mono">failure</span>), код выхода 2 и запрет рассылки при сбое, повторы, кеш ответов и резервная модель. Второй разбор в анализе: письма не уходили, потому что сеть закрывала SMTP. После него все интеграции переведены на HTTPS.</p>
+      </div>
+
+      <div class="block" id="t-req">
+        <h3>Требования</h3>
+        <figure class="dia" id="t-uc">
+          <button class="dia-open" data-title="Threata: диаграмма вариантов использования"><img src="d/threata/use-cases.svg" alt="UML Use Case Threata" loading="lazy"></button>
+          <figcaption><span class="tag">UML Use Case</span>Шесть ролей и три внешние системы, включая оператора рекламных данных.</figcaption>
+        </figure>
+        <pre class="spec"><span class="k">US-05</span>  Как администратор, я хочу, чтобы при сбое модели рассылка не уходила,
+       чтобы читатели не получили пустой или ложный выпуск.
+
+<span class="k">Сценарий:</span> модель не ответила при формировании выпуска
+  <span class="k">Допустим</span> ключ модели задан, а сервис модели возвращает ошибку
+  <span class="k">Когда</span>   система формирует выпуск
+  <span class="k">То</span>      статус запуска равен failure, код выхода 2
+  <span class="k">И</span>       в выпуске написано, что он не сформирован, а не «новостей нет»
+  <span class="k">И</span>       вызов отправки возвращает отказ</pre>
+        <div class="tbl"><table>
+          <thead><tr><th>ID</th><th>Требование</th><th>MoSCoW</th><th>Статус</th></tr></thead>
+          <tbody>
+            <tr><td class="id">FR-03</td><td>Отбор по теме, склейка дублей, ранжирование, топ-5</td><td>Must</td><td><span class="st ok">есть</span></td></tr>
+            <tr><td class="id">FR-05</td><td>Проверка чисел и дат пересказа по тексту источника</td><td>Must</td><td><span class="st ok">есть</span></td></tr>
+            <tr><td class="id">FR-09a</td><td>Статусы запуска и рассылка только после успешного запуска</td><td>Must</td><td><span class="st ok">есть</span></td></tr>
+            <tr><td class="id">FR-10</td><td>Запуск выпуска по расписанию</td><td>Must</td><td><span class="st new">к запуску</span></td></tr>
+            <tr><td class="id">FR-12</td><td>Кампании, креативы и токен erid</td><td>Must</td><td><span class="st new">к запуску</span></td></tr>
+            <tr><td class="id">FR-15</td><td>Раздельные согласия: персональные данные и реклама</td><td>Must</td><td><span class="st new">к запуску</span></td></tr>
+            <tr><td class="id">NFR-04</td><td>Текст новости передаётся модели как данные; ответ ограничен JSON-схемой</td><td>Must</td><td><span class="st ok">есть</span></td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <div class="block">
+        <h3>UML</h3>
+        <div class="grid2">
+          <figure class="dia" id="t-state">
+            <button class="dia-open" data-title="Состояния выпуска"><img src="uml/threata-state.svg" alt="UML диаграмма состояний выпуска" loading="lazy"></button>
+            <figcaption><span class="tag">UML States</span>Статусы выпуска совпадают с тем, что пишет код в <span class="mono">run_info.json</span>.</figcaption>
+          </figure>
+          <figure class="dia" id="t-seq">
+            <button class="dia-open" data-title="Последовательность: формирование и рассылка"><img src="uml/threata-seq.svg" alt="UML диаграмма последовательности" loading="lazy"></button>
+            <figcaption><span class="tag">UML Sequence</span>Формирование и рассылка выпуска, ветка сбоя с кодом 2.</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="block" id="t-gap">
+        <h3>Что нужно до публичного запуска</h3>
+        <div class="tbl"><table>
+          <thead><tr><th>Область</th><th>Сейчас</th><th>Нужно</th></tr></thead>
+          <tbody>
+            <tr><td>Запуск</td><td>Вручную из панели или бота</td><td>Каждый день в 08:00 МСК</td></tr>
+            <tr><td>Реклама</td><td>Нет</td><td>Слоты, erid, учёт кликов, отчёты</td></tr>
+            <tr><td>Выпуск с замечаниями</td><td>Рассылается сразу</td><td>Утверждение редактором</td></tr>
+            <tr><td>Данные подписчиков</td><td>Почта и хеши паролей</td><td>Политика ПДн, согласия, сервер в РФ</td></tr>
+            <tr><td>API ядра</td><td>Без авторизации, только локально</td><td>Закрыть токеном</td></tr>
+          </tbody>
+        </table></div>
+        <figure class="shot tall" style="max-width:420px"><img src="img/threata-post.jpg" alt="Пост с дайджестом в Telegram-канале" loading="lazy" width="1000" height="2244"><figcaption>Тот же выпуск коротким постом для Telegram-канала (до 2000 знаков).</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ KAIVO ============ -->
+  <section id="kaivo">
+    <div class="wrap">
+      <div class="case-head">
+        <p class="eyebrow">Кейс 2 · свой продукт</p>
+        <h2>KAIVO</h2>
+        <p class="tagline">Плеер для своей Hi-Res коллекции на macOS, iOS, iPadOS и Android. Общее звуковое ядро на Rust: звук и эквалайзер одинаковые на всех устройствах. В анализе продукт выходит в App Store и Google Play по подписке.</p>
+        <ul class="meta"><li class="chip">SwiftUI, Kotlin, Rust</li><li class="chip">FLAC, DSD до DSD512, bit-perfect</li><li class="chip">10 языков</li><li class="chip">Без аккаунта и телеметрии</li></ul>
+      </div>
+
+      <div class="shots" aria-label="Скриншоты KAIVO">
+        <figure><img src="img/kaivo-01-library.jpg" alt="Библиотека" width="540" height="1200" loading="lazy"><figcaption>Библиотека</figcaption></figure>
+        <figure><img src="img/kaivo-02-miniplayer.jpg" alt="Мини-плеер" width="540" height="1200" loading="lazy"><figcaption>Мини-плеер</figcaption></figure>
+        <figure><img src="img/kaivo-03-player.jpg" alt="Плеер" width="540" height="1200" loading="lazy"><figcaption>Плеер</figcaption></figure>
+        <figure><img src="img/kaivo-04-visualizer.jpg" alt="Визуализатор" width="540" height="1200" loading="lazy"><figcaption>Визуализатор</figcaption></figure>
+        <figure><img src="img/kaivo-05-playlists.jpg" alt="Плейлисты" width="540" height="1200" loading="lazy"><figcaption>Плейлисты</figcaption></figure>
+      </div>
+
+      <div class="two" style="margin-top:28px">
+        <div class="facts">
+          <div class="fact"><b>Проблема</b><p>Штатные плееры не играют DSD и пересэмплируют звук. На каждом устройстве свой плеер, и эквалайзер под наушники настраивается заново.</p></div>
+          <div class="fact"><b>Решение</b><p>Один плеер на четырёх платформах, одно ядро обработки звука, одинаковые фильтры эквалайзера. История и подборки считаются на устройстве.</p></div>
+          <div class="fact"><b>Моя роль</b><p>Владелец продукта: идея, требования, приоритеты, приёмка по видеозаписям дефектов, исследование АЧХ наушников для пресетов. Код написан LLM-агентами по моим постановкам задач.</p></div>
+        </div>
+        <div class="facts">
+          <div class="fact"><b>Модель</b><p>Freemium. Бесплатно: библиотека, плейлисты, тексты песен, эквалайзер на 7 полос. KAIVO Pro: параметрический эквалайзер и пресеты наушников, DSD и bit-perfect, ежедневные подборки Moods.</p></div>
+          <div class="fact"><b>Экономика</b><p class="mono" style="font-size:.875rem">LTV = цена в месяц × (1 − 15% комиссии) × срок подписки</p></div>
+          <div class="fact"><b>Рынок</b><p>Оплата в App Store российскими картами недоступна, поэтому основные рынки за пределами РФ. Интерфейс уже на 10 языках.</p></div>
+        </div>
+      </div>
+
+      <div class="block pb">
+        <h3>Процессы</h3>
+        <figure class="dia" id="k-asis">
+          <button class="dia-open" data-title="As-Is: прослушивание коллекции"><img src="d/kaivo/01-as-is-listening.svg" alt="BPMN As-Is: прослушивание коллекции" loading="lazy"></button>
+          <figcaption><span class="tag">BPMN As-Is</span>Как аудиофил слушает свою коллекцию сейчас: конвертация, разные плееры, эквалайзер заново на каждом устройстве.</figcaption>
+        </figure>
+        <figure class="dia" id="k-sub">
+          <button class="dia-open" data-title="To-Be: оформление подписки KAIVO Pro"><img src="d/kaivo/02-to-be-subscription.svg" alt="BPMN To-Be: оформление подписки" loading="lazy"></button>
+          <figcaption><span class="tag">BPMN To-Be</span>Подписка без своего сервера и аккаунта: статус проверяется на устройстве, магазин вынесен в отдельный пул. Учтён семейный доступ, когда покупку одобряет родитель.</figcaption>
+        </figure>
+        <figure class="dia" id="k-mood">
+          <button class="dia-open" data-title="To-Be: ежедневный подбор KAIVO Mood"><img src="d/kaivo/03-to-be-daily-mood.svg" alt="BPMN To-Be: ежедневный Mood" loading="lazy"></button>
+          <figcaption><span class="tag">BPMN To-Be</span>Подборка дня по правилам из кода: не меньше 8 треков в библиотеке, 5-14 треков в подборке, оценка меняет вес концепции.</figcaption>
+        </figure>
+      </div>
+
+      <div class="block" id="k-why">
+        <h3>Причины</h3>
+        <figure class="dia">
+          <button class="dia-open" data-title="Диаграмма Исикавы: почему коллекция звучит по-разному"><img src="d/kaivo/ishikawa-listening.svg" alt="Диаграмма Исикавы KAIVO" loading="lazy"></button>
+          <figcaption><span class="tag">Исикава</span>Корень: нет одного плеера с общим ядром и общими настройками звука. Отсюда главное архитектурное решение продукта.</figcaption>
+        </figure>
+        <p class="prose"><b>«5 почему» по реальному дефекту:</b> визуализатор отставал от звука в беспроводных наушниках. Корень оказался в требовании «визуализатор в такт музыке» без допуска в миллисекундах. Решение: приложение запрашивает задержку устройства у системы и умеет калиброваться по микрофону, а в требования добавлен допуск 40 мс.</p>
+      </div>
+
+      <div class="block" id="k-req">
+        <h3>Требования</h3>
+        <figure class="dia" id="k-uc">
+          <button class="dia-open" data-title="KAIVO: диаграмма вариантов использования"><img src="d/kaivo/use-cases.svg" alt="UML Use Case KAIVO" loading="lazy"></button>
+          <figcaption><span class="tag">UML Use Case</span>Подписчик Pro наследует возможности слушателя. Расширения «extend» с условиями: bit-perfect, удаление плейлиста с файлами, импорт пресета.</figcaption>
+        </figure>
+        <pre class="spec"><span class="k">US-06</span>  Как подписчик, я хочу восстановить покупку на новом телефоне,
+       чтобы не платить второй раз.
+
+<span class="k">Сценарий:</span> новая установка с тем же аккаунтом магазина
+  <span class="k">Допустим</span> у пользователя активна годовая подписка
+  <span class="k">И</span>       он установил KAIVO на новое устройство с тем же Apple ID
+  <span class="k">Когда</span>   он нажимает «Восстановить покупки»
+  <span class="k">То</span>      Pro-функции открываются без повторной оплаты</pre>
+      </div>
+
+      <div class="block">
+        <h3>UML</h3>
+        <div class="grid2">
+          <figure class="dia" id="k-state">
+            <button class="dia-open" data-title="Состояния подписки"><img src="uml/kaivo-sub-state.svg" alt="UML состояния подписки" loading="lazy"></button>
+            <figcaption><span class="tag">UML States</span>Пробный период, льготный период и повтор списания: доступ не пропадает из-за временной проблемы с картой.</figcaption>
+          </figure>
+          <figure class="dia" id="k-class">
+            <button class="dia-open" data-title="Модель предметной области"><img src="uml/kaivo-class.svg" alt="UML диаграмма классов" loading="lazy"></button>
+            <figcaption><span class="tag">UML Classes</span>Классы взяты из кода; <span class="mono">Entitlement</span> предлагается для подписки.</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="block" id="k-gap">
+        <h3>Сверка требований с кодом</h3>
+        <p class="prose">Перед релизом я сверил требования с реализацией. Вот что нашлось:</p>
+        <div class="tbl"><table>
+          <thead><tr><th>Находка</th><th>Почему важно</th><th>Что делать</th></tr></thead>
+          <tbody>
+            <tr><td>Нет встроенных покупок</td><td>Без них нельзя продавать Pro (правило 3.1.1)</td><td>StoreKit 2 и Google Play Billing, экран подписки</td></tr>
+            <tr><td>Временный идентификатор macOS-версии</td><td>С ним не выйти в App Store, а от него зависит папка с данными</td><td>Постоянный идентификатор и перенос библиотеки</td></tr>
+            <tr><td>Удаление плейлиста с файлами стирает треки и из других плейлистов</td><td>Пользователь теряет музыку, которую не собирался удалять</td><td>Сохранять треки, нужные другим плейлистам</td></tr>
+            <tr><td>Нераспознанный пресет эквалайзера импортируется молча</td><td>Пользователь не понимает, что пошло не так</td><td>Сообщение с причиной</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ METHOD ============ -->
+  <section id="method">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Метод</p>
+        <h2>Как я работаю</h2>
+        <p>Один и тот же путь в обоих проектах. Нарисован в той же нотации, что и схемы выше.</p>
+      </div>
+      <div class="flow" role="list">
+        <div class="ev" aria-hidden="true"></div><div class="arr" aria-hidden="true"></div>
+        <div class="task" role="listitem"><b>01</b><span>Проблема и аудитория</span></div><div class="arr" aria-hidden="true"></div>
+        <div class="task" role="listitem"><b>02</b><span>Процесс As-Is и узкие места</span></div><div class="arr" aria-hidden="true"></div>
+        <div class="task" role="listitem"><b>03</b><span>Корневые причины</span></div><div class="arr" aria-hidden="true"></div>
+        <div class="task" role="listitem"><b>04</b><span>Процесс To-Be</span></div><div class="arr" aria-hidden="true"></div>
+        <div class="task" role="listitem"><b>05</b><span>Требования и критерии приёмки</span></div><div class="arr" aria-hidden="true"></div>
+        <div class="task" role="listitem"><b>06</b><span>Сверка с кодом и приёмка</span></div><div class="arr" aria-hidden="true"></div>
+        <div class="ev end" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OTHER ============ -->
+  <section id="other">
+    <div class="wrap">
+      <div class="other">
+        <div class="sec-head" style="margin:0">
+          <p class="eyebrow">Ещё проект</p>
+          <h2>Notchy</h2>
+          <p>Панель в вырезе экрана MacBook: статус ИИ-агентов, музыка, запись экрана, буфер обмена, конвертация файлов перетаскиванием. Открытый репозиторий с релизами.</p>
+          <p><a href="https://github.com/OnlyYuta/notchy">github.com/OnlyYuta/notchy</a></p>
+        </div>
+        <div class="note">Полный анализ Threata и KAIVO (пять документов на каждый проект, исходники схем в формате <span class="mono">.bpmn</span>) лежит в закрытых репозиториях вместе с кодом. Покажу по запросу.</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap" style="display:grid;gap:8px">
+    <p>© 2026 Никита Коровин. Материалы страницы нельзя копировать и использовать без разрешения автора.</p>
+    <p>Исходный код проектов закрыт. Схемы: BPMN 2.0 и UML.</p>
+    <p>Онлайн-версия: <a href="https://onlyyuta.github.io/portfolio/">onlyyuta.github.io/portfolio</a></p>
+  </div>
+</footer>
+
+<dialog id="zoom" aria-labelledby="ztitle">
+  <div class="zbar">
+    <span id="ztitle"></span>
+    <button type="button" id="zminus" aria-label="Уменьшить">−</button>
+    <button type="button" id="zfit">По ширине</button>
+    <button type="button" id="zplus" aria-label="Увеличить">+</button>
+    <button type="button" id="zclose">Закрыть</button>
+  </div>
+  <div class="zview" id="zview"><img id="zimg" alt=""></div>
+</dialog>
+
+<script>
+(() => {
+  const dlg = document.getElementById("zoom"), img = document.getElementById("zimg"), view = document.getElementById("zview");
+  let scale = 1;
+  const apply = () => { img.style.width = Math.round(img.naturalWidth * scale) + "px"; };
+  const fit = () => { if (!img.naturalWidth) return; scale = Math.min(1, (view.clientWidth - 2) / img.naturalWidth); if (scale < 0.35) scale = 0.6; apply(); };
+  document.querySelectorAll(".dia-open").forEach((b) => b.addEventListener("click", () => {
+    const src = b.querySelector("img");
+    document.getElementById("ztitle").textContent = b.dataset.title || src.alt;
+    img.alt = src.alt; img.onload = fit; img.src = src.currentSrc || src.src;
+    dlg.showModal(); if (img.complete) fit(); view.scrollTo(0, 0);
+  }));
+  document.getElementById("zplus").addEventListener("click", () => { scale = Math.min(3, scale * 1.25); apply(); });
+  document.getElementById("zminus").addEventListener("click", () => { scale = Math.max(0.15, scale / 1.25); apply(); });
+  document.getElementById("zfit").addEventListener("click", () => { scale = Math.min(1, (view.clientWidth - 2) / img.naturalWidth); apply(); });
+  document.getElementById("zclose").addEventListener("click", () => dlg.close());
+  dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });
+})();
+</script>
+
+</body>
+</html>
